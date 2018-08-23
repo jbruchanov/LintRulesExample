@@ -1,0 +1,27 @@
+apply plugin: "kotlin"
+
+ext {
+    lintVersion = '26.1.4'
+}
+
+dependencies {
+    compileOnly "com.android.tools.lint:lint-api:$lintVersion"
+    compileOnly "com.android.tools.lint:lint-checks:$lintVersion"
+
+    testCompile "junit:junit:4.12"
+    testCompile "com.android.tools.lint:lint:$lintVersion"
+    testCompile "com.android.tools.lint:lint-tests:$lintVersion"
+    testCompile "com.android.tools:testutils:$lintVersion"
+}
+
+sourceCompatibility = "1.6"
+targetCompatibility = "1.6"
+
+jar {
+    manifest {
+        // Only use the "-v2" key here if your checks have been updated to the
+        // new 3.0 APIs (including UAST)
+        attributes("Lint-Registry-v2": "com.example.lint.CustomIssueRegistry")
+    }
+}
+
