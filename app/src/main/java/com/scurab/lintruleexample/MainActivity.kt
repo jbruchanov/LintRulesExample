@@ -1,10 +1,9 @@
 package com.scurab.lintruleexample
 
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import javax.inject.Inject
 
-class MainActivity : AppCompatActivity() {
+class MainActivity : BaseActivity() {
 
     @Inject
     lateinit var obj: Any
@@ -13,6 +12,10 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        DaggerSampleComponent().inject(this)
+    }
+
+    override fun inject() {
         DaggerSampleComponent().inject(this)
     }
 }

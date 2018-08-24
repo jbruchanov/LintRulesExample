@@ -24,10 +24,18 @@ val ISSUE_INJECTING_SUPER_TYPE = Issue.create("InjectingSuperType",
         Implementation(InjectingSuperTypeDetector::class.java, Scope.JAVA_FILE_SCOPE)
 )
 
+val ISSUE_INJECTING_LOCATION = Issue.create("InjectingSuperType",
+        "Invalid injection location.",
+        "Inject objects only in inject()",
+        CORRECTNESS,
+        5,
+        Severity.ERROR,
+        Implementation(InjectingLocationDetector::class.java, Scope.JAVA_FILE_SCOPE)
+)
 
 class CustomIssueRegistry : IssueRegistry() {
     override val issues: List<Issue>
-        get() = listOf(ISSUE_INJECTION_CALLING_SUPER, ISSUE_INJECTING_SUPER_TYPE)
+        get() = listOf(ISSUE_INJECTION_CALLING_SUPER, ISSUE_INJECTING_SUPER_TYPE, ISSUE_INJECTING_LOCATION)
 
     override val api: Int
         get() = CURRENT_API
