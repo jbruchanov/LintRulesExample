@@ -24,14 +24,6 @@ class InjectingSuperTypeDetector : Detector(), Detector.UastScanner {
         return object : UElementHandler() {
 
             override fun visitCallExpression(node: UCallExpression) {
-                try {
-                    check(node)
-                } catch (e: Exception) {
-                    e.printStackTrace()
-                }
-            }
-
-            private fun check(node: UCallExpression) {
                 if (injectMethodName == node.methodName && node.valueArgumentCount == 1) {
                     val injectedClass = TypeEvaluator.evaluate(node.valueArguments[0])
                     var clazz = ((TypeEvaluator.evaluate(node.receiver)) as PsiClassType).resolve()
