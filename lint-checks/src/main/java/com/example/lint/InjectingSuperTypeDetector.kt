@@ -51,7 +51,7 @@ class InjectingSuperTypeDetector : Detector(), Detector.UastScanner {
                                     } ?: false
 
                     if (notFoundActualTypeInjection && hasInjections) {
-                        val componentName = (node.receiverType as PsiClassType).name
+                        val componentName = (node.receiverType as PsiClassType).presentableText
                         val expectedType = PsiTypesUtil.getPsiClass(injectedClass)?.name
                                 ?: injectedClass.toString()
 

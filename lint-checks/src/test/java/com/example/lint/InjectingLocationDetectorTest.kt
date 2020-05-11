@@ -5,7 +5,7 @@ import com.android.tools.lint.checks.infrastructure.TestLintTask
 import com.android.tools.lint.detector.api.Detector
 import org.junit.Test
 
-class InjectingLocationDetectorTest : Detector(), Detector.UastScanner {
+class   InjectingLocationDetectorTest : Detector(), Detector.UastScanner {
 
     @Test
     fun validation_withInvalidLocationButNotAllowedClass_notifiesError() {
@@ -126,6 +126,31 @@ class InjectingLocationDetectorTest : Detector(), Detector.UastScanner {
 
         TestLintTask.lint()
                 .files(TestFile.JavaTestFile.create(code))
+                .issues(ISSUE_INJECTING_LOCATION)
+                .run()
+                .expectClean()
+    }
+
+    @Test
+    fun validationKt_withValidLocationInActivity_isOk() {
+        val code = """
+            package test
+
+            class ParentActivity {
+
+                override fun inject() {
+                    val component:Component? = null
+                    component?.inject(this)
+                }
+
+                interface Component {
+                    fun inject(o: ParentClass)
+                }
+            }
+        """.trimIndent()
+
+        TestLintTask.lint()
+                .files(TestFile.KotlinTestFile.create(code))
                 .issues(ISSUE_INJECTING_LOCATION)
                 .run()
                 .expectClean()

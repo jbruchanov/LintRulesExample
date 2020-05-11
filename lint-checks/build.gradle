@@ -1,7 +1,7 @@
 apply plugin: "kotlin"
 
 ext {
-    lintVersion = '26.1.4'
+    lintVersion = '26.6.3'
 }
 
 dependencies {
@@ -25,3 +25,12 @@ jar {
     }
 }
 
+task copyLintJar(type: Copy) {
+    description = 'Copies the lint jar file into the {user.home}/.android/lint folder.'
+    from('build/libs/')
+    into(System.getProperty("user.home") + '/.android/lint')
+    include("*.jar")
+}
+
+// Runs the copyLintJar task after build has completed.
+build.finalizedBy(copyLintJar)
